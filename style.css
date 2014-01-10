@@ -6,11 +6,11 @@
 
 #selectiondisplay {
     float: left;
+    border-right: 0px;
 }
 
 #eventdisplay {
     float: left;
     width: 60%;
-    border-left: 0px;
 
 }

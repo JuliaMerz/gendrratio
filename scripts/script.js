@@ -52,8 +52,8 @@ function eventDisplay(data){
     console.log(data);
     $("#eventdisplay").empty();
     $("#eventdisplay").append("<h2>"+data.name+"</h1>");
-    $("#eventdisplay").append("<h4>"+data.owner.name+"</h4>");
-    $("#eventdisplay").append("<h4>"+data.attending.data.length.toString()+"</h4>");
+    $("#eventdisplay").append("<h4>Created by:"+data.owner.name+"</h4>");
+    $("#eventdisplay").append("<h4>Total:"+data.attending.data.length.toString()+"</h4>");
     var male = 0;
     var female = 0;
     var total = 0;
@@ -68,27 +68,33 @@ function eventDisplay(data){
     }
     var malesperfemale = male/female;
     var femalespermale = female/male;
+
+    $("#eventdisplay").append("There are <strong>"+male+" males</strong> attending and <strong>"+female+" females</strong>, leading to a ratio of <strong>"+ malesperfemale+" males per female</strong> or <strong>"+femalespermale+" females per male</strong>.<br>");
     
     //Handle making a graphic with d3
     var svg = d3.select("#eventdisplay").append("svg").attr("width", "400").attr("height", "400");
     var arc = d3.svg.arc()
     .outerRadius(150)
-    .innerRadius(0);
+    .innerRadius(90);
     
-    var colors = ["#FF0000", "#0000FF"];
+    var colors = ["#B990E6", "#04A194"];
     var pie = d3.layout.pie().value(function(d) { return d.value;});
 
-    malesandfemales = [male, female]
+    malesandfemales = [{name: "male", value: male, color: colors[1]}, {name: "female", value: female, color: colors[0]}]
     svg.append("g").attr("class", "donut");
-    svg.select(".donut")
-        .append("g")
+    svg.select(".donut")//Put stuff to modify graph (like location) here.
+        .selectAll(".arc")
         .data(pie(malesandfemales))
-        .append("path")
-        .attr("d", arc);
+        .enter() //Placeholders for .arc
+        .append("g") //Generate g from the placeholders
+        .attr("class", "arc") //Set class to actually be .arc
+        .attr("transform", "translate(" + svg.attr("width")/2 + ", " + svg.attr("height")/2 +")") //Move it to the right place.
+        .append("path") //Add the path
+        .attr("d", arc) //Make it from the arc generator
+        .style("fill", function(d) {console.log(d); return d.data.color;}); //Add coloring.
     
 
 
-    $("#eventdisplay").append("There are <strong>"+male+" males</strong> attending and <strong>"+female+" females</strong>, leading to a ratio of <strong>"+ malesperfemale+" males per female</strong> or <strong>"+femalespermale+" females per male</strong>.");
 
 
 }
