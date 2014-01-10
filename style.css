@@ -1,0 +1,16 @@
+.framed{
+    border: solid 1px;
+    padding: 10px;
+
+}
+
+#selectiondisplay {
+    float: left;
+}
+
+#eventdisplay {
+    float: left;
+    width: 60%;
+    border-left: 0px;
+
+}

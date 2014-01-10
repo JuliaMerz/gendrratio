@@ -1,0 +1,45 @@
+<html>
+<head>
+    <title>GendrRatio </title>
+    <link type="text/css" rel="stylesheet" href="style.css">
+    <script src="scripts/jquery-2.0.3.min.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="http://d3js.org/d3.v3.js" charset="utf-8"></script>
+</head>
+<body>
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function() {
+        // init the FB JS SDK
+        FB.init({
+            appId      : '177145425812400',                        // App ID from the app dashboard
+            channelUrl : 'beta.sebastianmerz.com/gendrratio/scripts/channel.php', // Channel file for x-domain comms
+            status     : true,                                 // Check Facebook Login status
+            xfbml      : true                                  // Look for social plugins on the page
+        });
+
+        // Additional initialization code such as adding Event Listeners goes here
+    };
+
+    // Load the SDK asynchronously
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<a id="magical button" href="#" onclick="run()">Anchorishbuttonishlogginbutton.</a>
+<div>
+    <div id="selectiondisplay" class="framed">
+        <div id="list" class="emptyonload"></div>
+        <div>
+            <div id="prevbutton" class="emptyonload"></div>
+            <div id="nextbutton" class="emptyonload"></div>
+        </div>
+    </div>
+
+    <div class="emptyonload framed" id="eventdisplay"></div>
+</div>
