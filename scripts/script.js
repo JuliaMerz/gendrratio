@@ -52,7 +52,7 @@ function eventDisplay(data){
     console.log(data);
     $("#eventdisplay").empty();
     $("#eventdisplay").append("<h2>"+data.name+"</h1>");
-    $("#eventdisplay").append("<h4>Created by:"+data.owner.name+"</h4>");
+    $("#eventdisplay").append("<h4>Created by: "+data.owner.name+"</h4>");
     $("#eventdisplay").append("<h4>Total:"+data.attending.data.length.toString()+"</h4>");
     var male = 0;
     var female = 0;
@@ -69,29 +69,61 @@ function eventDisplay(data){
     var malesperfemale = male/female;
     var femalespermale = female/male;
 
+    var colors = ["#B990E6", "#04A194"];
+
     $("#eventdisplay").append("There are <strong>"+male+" males</strong> attending and <strong>"+female+" females</strong>, leading to a ratio of <strong>"+ malesperfemale+" males per female</strong> or <strong>"+femalespermale+" females per male</strong>.<br>");
     
-    //Handle making a graphic with d3
-    var svg = d3.select("#eventdisplay").append("svg").attr("width", "400").attr("height", "400");
-    var arc = d3.svg.arc()
+    //Handle making a the pie chart with d3
+    var svg1 = d3.select("#eventdisplay").append("svg").attr("width", "400").attr("height", "400");//Create teh SVG
+    var arc = d3.svg.arc() //Set up the arc generator
     .outerRadius(150)
     .innerRadius(90);
     
-    var colors = ["#B990E6", "#04A194"];
-    var pie = d3.layout.pie().value(function(d) { return d.value;});
+    var pie = d3.layout.pie()
+        .value(function(d) { return d.value;}) //Set up the pie generator to get the data value
+        .startAngle(0.8*Math.PI)//Rotate the chart a bit
+        .endAngle(2.8*Math.PI);
 
-    malesandfemales = [{name: "male", value: male, color: colors[1]}, {name: "female", value: female, color: colors[0]}]
-    svg.append("g").attr("class", "donut");
-    svg.select(".donut")//Put stuff to modify graph (like location) here.
-        .selectAll(".arc")
-        .data(pie(malesandfemales))
-        .enter() //Placeholders for .arc
+
+    var duration = 500; //We set this as a variable because it's used in a few places and we want to be able to configure it.
+
+    malesandfemales = [{name: "males", value: male, color: colors[1]}, {name: "females", value: female, color: colors[0]}]
+    svg1.append("g").attr("class", "donut");
+    var group1 = svg1.select(".donut")//Put stuff to modify graph (like location) here.
+        .selectAll(".arc") //We're selecting all .arcs even though they don't exist.
+        .data(pie(malesandfemales)) //Data to generate placeholders from
+        .enter() //Placeholders for missing .arc
         .append("g") //Generate g from the placeholders
         .attr("class", "arc") //Set class to actually be .arc
-        .attr("transform", "translate(" + svg.attr("width")/2 + ", " + svg.attr("height")/2 +")") //Move it to the right place.
-        .append("path") //Add the path
-        .attr("d", arc) //Make it from the arc generator
-        .style("fill", function(d) {console.log(d); return d.data.color;}); //Add coloring.
+        .attr("transform", "translate(" + svg1.attr("width")/2 + ", " + svg1.attr("height")/2 +")"); //Move it to the right place.
+    group1.append("path") //Add the path
+        //.attr("d", arc) //Make it from the arc generator
+        .style("fill", function(d) {console.log(d); return d.data.color;}) //Add coloring.
+        .transition() //Activate transition for when we start generating the chart
+        //.delay(function(data, index) {console.log((duration-(data.data.value/total * duration)) * index); return (duration-(data.data.value/total * duration)) * index;})
+        .ease("linear")
+        .duration(duration)//function(d){return duration*d.data.value/total;})
+        .attrTween('d', function(d, i){
+            var gen1 = d3.interpolate(d.startAngle, d.endAngle);
+            var gen2 = d3.interpolate(d.endAngle, d.startAngle);
+            return function (t){
+                if(i == 1){
+                    d.endAngle = gen1(t);
+                }else{
+                    d.startAngle = gen2(t);
+                }
+                return arc(d);
+            };});
+    group1.append("text") //Append to both g elements.
+        .attr("transform", function(d){ return "translate(" + arc.centroid(d) + ")"; })
+        .attr("dy", "0.8 em") //Styling
+        .style("text-anchor", "middle") //Styling
+        .attr("fill", "#FFFFFF") //Styling
+        .text(function(d) { return d.data.value +" "+ d.data.name;}); //Return male or female
+
+    //Handle making the bar graph with d3.
+    var svg2 = d3.select("#eventdisplay").append("svg").attr("width","400").attr("height", "400");
+        
     
 
 
