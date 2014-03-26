@@ -2,9 +2,10 @@
 <head>
     <title>GendrRatio </title>
     <link type="text/css" rel="stylesheet" href="style.css">
+    <link href='http://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
     <script src="scripts/jquery-2.0.3.min.js"></script>
     <script src="scripts/script.js"></script>
-    <script src="http://d3js.org/d3.v3.js" charset="utf-8"></script>
+    <script src="scripts/d3.v3.js" charset="utf-8"></script>
 </head>
 <body>
 <div id="fb-root"></div>
@@ -31,10 +32,11 @@
     }(document, 'script', 'facebook-jssdk'));
 </script>
 
-<div>
+<div id="main">
     
-    <div class="emptyonload"><a id="magical button" href="#" onclick="run()">Anchorishbuttonishlogginbutton.</a></div>
-    <div id="selectiondisplay" class="framed">
+    <div id="banner" class="framed"><h1>Gendrratio</h1><h4>FB event statistics using the only data always available via api: gender</h4></div>
+    <div id="initialbutton" class="emptyonload"><center><a id="magical button" href="#" onclick="run()">ACTIVATE</a></center></div>
+    <div id="selectiondisplay" style="display:none;" class="framed">
         <div id="list" class="emptyonload"></div>
         <div>
             <div id="prevbutton" class="emptyonload"></div>
@@ -42,5 +44,5 @@
         </div>
     </div>
 
-    <div class="emptyonload framed" id="eventdisplay"></div>
+    <div class="emptyonload framed" style="display:none;"id="eventdisplay"></div>
 </div>

@@ -1,16 +1,92 @@
-.framed{
-    border: solid 1px;
+* {
+    font-family: 'Metrophic', sans-serif;
+}
+.framed {
+    /*border: solid 1px;*/
     padding: 10px;
+    border: 0px;
+    background-color: #ECECFF;
+    margin-bottom: 10px;
 
 }
 
+#nextbutton, #prevbutton {
+    display: inline;
+}
+
+#initialbutton {
+    margin: auto;
+    width: 300px;
+    background-color: #ECECFF;
+}
+
+h1, h2, h3, h4 {
+    margin-top: 0px;
+}
+
+h1, h4 {
+    margin-bottom: 5px;
+}
+
+a {
+    color: #000000;
+}
+
+li > a {
+    text-decoration: none;
+    display: block;
+}
+
+li:hover {
+    background-color: #CCCCDF;
+}
+
+li:last-child {
+    border-bottom: 0px;
+}
+
+li {
+    list-style-type: none;
+    border-bottom: solid black 1px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+svg {
+    vertical-align: middle;
+}
+
+text {
+    text-anchor: middle;
+}
+
+#initialbutton a{
+    padding: 25px;
+    display: block;
+    text-decoration: none;
+    color: #000000;
+    margin-top: 100px;
+}
+
+#initialbutton a:hover{
+    background-color: #F1F1FF;
+    color: #454545;
+}
 #selectiondisplay {
     float: left;
     border-right: 0px;
 }
 
-#eventdisplay {
-    float: left;
-    width: 60%;
+#main {
+    width: 1100px;
+    margin: auto;
+}
 
+#selectiondisplay {
+    width:250px;
+}
+
+#eventdisplay {
+    float: right;
+    width: 800px;
 }
